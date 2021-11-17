@@ -229,3 +229,36 @@ export const fileSize2Str = function (size: number): string {
   let num = parseInt((size / Math.pow(1024, i)).toFixed(2))
   return num + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][i]
 }
+
+/**
+ * 执行网络请求
+ * 因为使用了 fetch，仅支持在类 chromium 中调用
+ * @param url 目标链接
+ * @param data 需要 POST 的数据
+ */
+export const request = async function (url: string, data: FormData | object | string) {
+  let ops: RequestInit = {
+    method: "GET"
+  }
+
+  // 是否为POST请求
+  if (data) {
+    ops.method = "POST"
+    ops.headers = new Headers()
+
+    // 判断POST的数据类型
+    if (data instanceof FormData) {
+      ops.body = data
+    } else if (typeof data === "object") {
+      // Post json数据
+      ops.body = JSON.stringify(data)
+      ops.headers.append("Content-Type", "application/json")
+    } else {
+      // typeof data === "string"
+      ops.body = data
+      ops.headers.append("Content-Type", "application/x-www-form-urlencoded")
+    }
+  }
+
+  return await fetch(url, ops)
+}
