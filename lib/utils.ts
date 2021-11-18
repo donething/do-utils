@@ -26,12 +26,16 @@ export const findLargestPlayingVideo = function (doc: Document): HTMLVideoElemen
  *
  * 仅在 background 脚本中可用，在 content script 中可使用标准 Web 通知
  *
+ * options 必须包含 title、message、iconUrl 属性
  * 使用：notify(options, actions)
  * @see https://stackoverflow.com/a/52109693
  * @see https://developer.chrome.com/extensions/notifications#NotificationOptions
  */
 export const notify = function (options: chrome.notifications.NotificationOptions, actions: Function[] = []) {
   let myNotificationID = ""
+
+  // 除了 title、message 外，其它必要的属性
+  options.type = options.type || "basic"
 
   // 发送通知
   chrome.notifications.create(options, notificationId => {
