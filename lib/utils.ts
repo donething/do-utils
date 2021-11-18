@@ -266,3 +266,19 @@ export const request = async function (url: string, data: FormData | object | st
 
   return await fetch(url, ops)
 }
+
+/**
+ * 复制文本到剪贴板
+ *
+ * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
+ * @param doc 需要传递DOM对象
+ * @param text 需要复制的文本
+ */
+export const copyText = function (doc: Document, text: string) {
+  let textarea = doc.createElement("textarea")
+  doc.body.appendChild(textarea)
+  textarea.value = text
+  textarea.select()
+  doc.execCommand("copy")
+  textarea.remove()
+}
