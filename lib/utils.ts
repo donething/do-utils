@@ -1,3 +1,7 @@
+// 常用工具函数
+// 不能在 chrome.scripting.executeScript() 的参数 func 内中调用本工具，会报错：
+// VM1589:2 Uncaught ReferenceError: utils is not defined
+
 /**
  * 获取当前网页中正在播放的占用最大面积的视频元素
  * @param doc 文档
@@ -279,22 +283,6 @@ export const request = async function (url: string, data: FormData | object | st
 }
 
 /**
- * 复制文本到剪贴板
- *
- * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
- * @param doc 需要传递DOM对象
- * @param text 需要复制的文本
- */
-export const copyText = function (doc: Document, text: string) {
-  let textarea = doc.createElement("textarea")
-  doc.body.appendChild(textarea)
-  textarea.value = text
-  textarea.select()
-  doc.execCommand("copy")
-  textarea.remove()
-}
-
-/**
  * 插入内联 JavaScript
  * @param code JavaScript 代码
  * @return 脚本所在的HTML元素
@@ -391,12 +379,28 @@ export const showMsg = async function (message: string, type = Msg.info, duratio
 }
 
 /**
- * 在网页内显示消息提示（仅在后台脚本中可用）
- * @param message 消息都内容
- * @param type 消息都类型，可选 MSG 中的值。默认为"info"
- * @param duration 消息都持续时间（毫秒）。默认 3 秒
+ * 复制文本到剪贴板（仅在内容脚本中可用）
+ *
+ * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
+ * @param doc 需要传递DOM对象
+ * @param text 需要复制的文本
  */
-const showMsgInBG = (message: string, type = Msg.info, duration = 3000) => {
+export const copyText = function (doc: Document, text: string) {
+  let textarea = doc.createElement("textarea")
+  doc.body.appendChild(textarea)
+  textarea.value = text
+  textarea.select()
+  doc.execCommand("copy")
+  textarea.remove()
+}
+
+/**
+ * 复制文本到剪贴板（仅在后台脚本中可用）
+ *
+ * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
+ * @param text 需要复制的文本
+ */
+export const copyTextInBG = function (text: string) {
   chrome.tabs.query({active: true}, tabs => {
     if (tabs.length === 0 || !tabs[0].id) {
       console.log("后台复制文本出错，tabs 信息不完整", tabs)
@@ -406,11 +410,15 @@ const showMsgInBG = (message: string, type = Msg.info, duration = 3000) => {
     // 向当前标签中注入文本框，以复制指定文本
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
-      func: (m: string, t: string, d: number) => {
-        // 发送复制操作的消息
-        showMsg(m, t, d)
+      func: (text: string) => {
+        let textarea = document.createElement("textarea")
+        document.body.appendChild(textarea)
+        textarea.value = text
+        textarea.select()
+        document.execCommand("copy")
+        textarea.remove()
       },
-      args: [message, type, duration]
+      args: [text]
     })
   })
 }
