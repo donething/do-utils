@@ -255,7 +255,7 @@ export const fileSize2Str = function (size: number): string {
  * @param url 目标链接
  * @param data 需要 POST 的数据
  */
-export const request = async function (url: string, data: FormData | object | string | undefined) {
+export const request = async function (url: string, data?: FormData | object | string) {
   let ops: RequestInit = {
     method: "GET"
   }
