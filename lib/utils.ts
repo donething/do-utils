@@ -254,11 +254,10 @@ export const fileSize2Str = function (size: number): string {
  * 因为使用了 fetch，仅支持在类 chromium 中调用
  * @param url 目标链接
  * @param data 需要 POST 的数据
+ * @param init 其它选项
  */
-export const request = async function (url: string, data?: FormData | object | string) {
-  let ops: RequestInit = {
-    method: "GET"
-  }
+export const request = async function (url: string, data?: FormData | object | string, init?: RequestInit) {
+  let ops: RequestInit = init || {}
 
   // 是否为POST请求
   if (data) {
