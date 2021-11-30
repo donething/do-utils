@@ -262,19 +262,27 @@ export const request = async function (url: string, data?: FormData | object | s
   // 是否为POST请求
   if (data) {
     ops.method = "POST"
-    ops.headers = new Headers()
+    ops.headers = new Headers(init?.headers)
 
     // 判断POST的数据类型
     if (data instanceof FormData) {
+      // POST 二进制数据，不需要指定类型
       ops.body = data
     } else if (typeof data === "object") {
-      // Post json数据
+      // POST json 数据
       ops.body = JSON.stringify(data)
-      ops.headers.append("Content-Type", "application/json")
+      // 如果参数 headers 中有指定 Content-Type，则使用已指定的值，否则设为 json
+      if (!ops.headers.get("Content-Type")) {
+        ops.headers.append("Content-Type", "application/json")
+      }
     } else {
       // typeof data === "string"
+      // POST 表单
       ops.body = data
-      ops.headers.append("Content-Type", "application/x-www-form-urlencoded")
+      if (!ops.headers.get("Content-Type")) {
+        // 如果参数 headers 中有指定 Content-Type，则使用已指定的值，否则设为 form
+        ops.headers.append("Content-Type", "application/x-www-form-urlencoded")
+      }
     }
   }
 
