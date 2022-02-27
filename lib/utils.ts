@@ -85,7 +85,8 @@ export const waitForElem = async function (selector: string, interval = 300) {
  * @param askHour12 是否以`12时制`返回，默认 false
  * @return 格式如 "2002/8/15 08:32:08"
  */
-export const date = function ({date = new Date(), askHour12 = false}: { date?: Date, askHour12?: boolean }): string {
+export const date = function ({date = new Date(), askHour12 = false}:
+                                { date?: Date, askHour12?: boolean }): string {
   return date.toLocaleString("chinese", {hour12: askHour12})
 }
 
