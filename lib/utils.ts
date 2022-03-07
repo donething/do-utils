@@ -35,7 +35,8 @@ export const findLargestPlayingVideo = function (doc: Document): HTMLVideoElemen
  * @see https://stackoverflow.com/a/52109693
  * @see https://developer.chrome.com/extensions/notifications#NotificationOptions
  */
-export const notify = function (options: chrome.notifications.NotificationOptions, actions: Function[] = []) {
+export const notify = function (options: chrome.notifications.NotificationOptions,
+                                actions?: Array<Function | undefined>) {
   let myNotificationID = ""
 
   // 除了 title、message 外，其它必要的属性
@@ -49,9 +50,9 @@ export const notify = function (options: chrome.notifications.NotificationOption
   // 为通知的按钮添加点击事件
   chrome.notifications.onButtonClicked.addListener((noID, btnIdx) => {
     if (noID === myNotificationID) {
-      if (btnIdx === 0 && actions[0]) {
+      if (btnIdx === 0 && actions && actions[0]) {
         actions[0]()
-      } else if (btnIdx === 1 && actions[1]) {
+      } else if (btnIdx === 1 && actions && actions[1]) {
         actions[1]()
       }
     }
