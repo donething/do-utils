@@ -18,6 +18,7 @@ export const sha256 = async (text: string): Promise<string> => {
  * 格式化日期
  * @param date 日期
  * @param fmt 返回的可读日期。默认"YYYY-mm-dd HH:MM:SS"，对应日期 "2022-03-30 22:50:39"
+ * @see https://www.jianshu.com/p/49fb78bca621
  */
 export const date = function (date = new Date(), fmt = "YYYY-mm-dd HH:MM:SS"): string {
   const opt = {
