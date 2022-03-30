@@ -53,7 +53,7 @@ export class WXQiYe extends WXPush {
       "msgtype": "text",
       "agentid": agentid,
       "text": {
-        "content": content + "\n" + date({})
+        "content": content + "\n\n" + date({})
       }
     }
 
@@ -66,7 +66,7 @@ export class WXQiYe extends WXPush {
    * @param title 标题
    * @param description 内容。可以用"\n"换行，可用设置部分字体颜色（已提供函数快速生成），不可含超链接
    * @param users 推送的目标（多个以"|"分隔），为空表示推送到所有人
-   * @param url 跳转链接
+   * @param url 跳转链接。为空时自动设为 example
    * @param btnTxt 跳转标识文本（仅在企业微信中有效，在微信中无效）
    */
   async pushCard(agentid: number, title: string, description: string, users = "@all",
@@ -79,7 +79,7 @@ export class WXQiYe extends WXPush {
       "textcard": {
         "title": title,
         "description": WXQiYe.MsgCard.genGrayText(date({})) + "\n" + description,
-        "url": url,
+        "url": url || "https://example.com",
         "btntxt": btnTxt
       }
     }
