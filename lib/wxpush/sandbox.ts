@@ -1,5 +1,5 @@
 import {WXPush} from "./wxpush"
-import {date} from "../utils"
+import {date} from "../text"
 
 // 微信测试号推送
 export class WXSandbox extends WXPush {
@@ -33,7 +33,7 @@ export class WXSandbox extends WXPush {
       data: {
         title: {value: title + "\n"},
         msg: {value: msg + "\n"},
-        time: {value: date({})},
+        time: {value: date()},
       }
     }
 

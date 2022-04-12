@@ -1,5 +1,5 @@
 import {WXPush} from "./wxpush"
-import {date} from "../utils"
+import {date} from "../text"
 
 // 微信企业号推送
 export class WXQiYe extends WXPush {
@@ -53,7 +53,7 @@ export class WXQiYe extends WXPush {
       "msgtype": "text",
       "agentid": agentid,
       "text": {
-        "content": content + "\n\n" + date({})
+        "content": content + "\n\n" + date()
       }
     }
 
@@ -78,7 +78,7 @@ export class WXQiYe extends WXPush {
       "agentid": agentid,
       "textcard": {
         "title": title,
-        "description": WXQiYe.MsgCard.genGrayText(date({})) + "\n" + description,
+        "description": WXQiYe.MsgCard.genGrayText(date()) + "\n" + description,
         "url": url || "https://example.com",
         "btntxt": btnTxt
       }
