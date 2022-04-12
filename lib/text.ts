@@ -46,6 +46,21 @@ export const date = function (date = new Date(), fmt = "YYYY-mm-dd HH:MM:SS"): s
 }
 
 /**
+ * 将秒数转为 时分秒
+ * @param seconds 秒
+ * @param needTrim 当小时位为 0 时，是否删除开头的"00:"。默认不删除
+ *
+ * @return 格式如 "01:02:03"、"02:03"
+ */
+export const parseSec = function (seconds: number, needTrim = false): string {
+  let str = new Date(seconds * 1000).toISOString().substr(11, 8)
+  if (str.indexOf("00:") === 0 && needTrim) {
+    return str.replace("00:", "")
+  }
+  return str
+}
+
+/**
  * 转换 GBK 编码为 UTF-8 编码的字符串
  * @param arrayBuffer 如果希望传递的参数是 Blob，可先通过`await blob.arrayBuffer()`转换为 ArrayBuffer 后传递
  * @return UTF-8 编码的字符串
