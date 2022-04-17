@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "ES6",
+    "module": "esnext",
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "strict": true
-  }
+  },
+  "include": [
+    "src"
+  ]
 }
