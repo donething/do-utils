@@ -60,7 +60,6 @@ export const multiComparator = function (sortRule: Array<Function>): Function {
  * 返回两数之间（包含）的随机数
  * @param  min 最小值
  * @param  max 最大值
- * @return 随机数
  * @see https://www.cnblogs.com/starof/p/4988516.html
  */
 export const random = function (min: number, max: number): number {
