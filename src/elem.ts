@@ -3,7 +3,6 @@ import {sleep} from "./utils"
 /**
  * 获取当前网页中正在播放的占用最大面积的视频元素
  * @param doc 文档
- * @return 视频元素
  * @see google
  */
 export const findLargestPlayingVideo = function (doc: Document): HTMLVideoElement | null {
@@ -112,8 +111,8 @@ export const scrollIntoView = function (selector: string) {
 
 /**
  * 插入内联 JavaScript
+ * 返回 脚本所在的HTML元素
  * @param code JavaScript 代码
- * @return 脚本所在的HTML元素
  */
 export const insertJS = function (code: string | Function): HTMLScriptElement {
   let script = document.createElement("script")
@@ -127,8 +126,8 @@ export const insertJS = function (code: string | Function): HTMLScriptElement {
 
 /**
  * 插入内联 JavaScript
+ * 返回 脚本所在的HTML元素
  * @param src 注入脚步的路径
- * @return 脚本所在的HTML元素
  */
 export const insertJSSrc = function (src: string): HTMLScriptElement {
   let script = document.createElement("script")
@@ -150,7 +149,6 @@ export const insertJSSrc = function (src: string): HTMLScriptElement {
  * 此方法会自动下载其中的图片等资源，如果仅需解析为 DOM，可以用 domParser
  *
  * @param str 需解析的字符串
- * @return Element 对象
  * @see https://stackoverflow.com/a/494348/8179418
  */
 export const elemOf = function (str: string): Element {

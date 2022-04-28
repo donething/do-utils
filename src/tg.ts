@@ -30,12 +30,12 @@ export class TGSender {
 
   /**
    * sendMessage 将文本消息发送到频道
+   *
    * @param  chat_id 聊天室频道的 ID
    * @param text 消息文本
    * @param parse_mode 解析模式，默认 Markdown
-   * @return {Promise<boolean|string>} 消息发送成功时返回 false，失败时返回响应文本
    */
-  async sendMessage(chat_id: string, text: string, parse_mode = "markdown") {
+  async sendMessage(chat_id: string, text: string, parse_mode = "markdown"): Promise<boolean> {
     // 设置将 POST 到 TG 的数据
     let data = {chat_id: String(chat_id), text: text, parse_mode: parse_mode}
 
@@ -50,11 +50,7 @@ export class TGSender {
     let resp = await fetch(`https://api.telegram.org/${this.token}/sendMessage`, ops)
     let result = await resp.json()
 
-    // 发送失败，返回响应文本
-    if (!result.ok) {
-      return resp.body
-    }
-    return true
+    return result.ok
   }
 
   /**
@@ -72,7 +68,6 @@ export class TGSender {
    * 可传递第一个文档的 caption、parse_mode 来设置合集的标题
    * @param  chat_id 聊天室频道的 ID
    * @param {Array<MediaOrigin>} mediaOrignList 媒体合集
-   * @return {Promise<Boolean|String>} 消息发送成功时返回 true，失败时返回响应文本
    */
   async sendMediaGroup(chat_id: string, mediaOrignList: any) {
     // 将发送的表单
@@ -106,10 +101,6 @@ export class TGSender {
     let resp = await fetch(`https://api.telegram.org/${this.token}/sendMediaGroup`, ops)
     let result = await resp.json()
 
-    // 发送失败，返回响应文本
-    if (!result.ok) {
-      return resp.body
-    }
-    return true
+    return result.ok
   }
 }

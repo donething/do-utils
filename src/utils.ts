@@ -41,9 +41,8 @@ export const insertOrdered = function <T>(array: Array<T>, element: T, sortRule:
 }
 
 /**
- * 返回的是多重比较器
+ * 返回 多重比较器
  * @param  sortRule 比较器的数组，按顺序比较，如 [onlineSort, platSort, nameSort]
- * @returns 返回多重比较器的最终比较函数
  */
 export const multiComparator = function (sortRule: Array<Function>): Function {
   return function <T>(a: T, b: T): number {
