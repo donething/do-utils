@@ -91,9 +91,9 @@ export const download = function (data: any, filename: string) {
   let a = document.createElement('a')
   let url = window.URL.createObjectURL(blob)
   a.href = url
-  a.download = filename || `chromium-task_${Date.now()}`
+  a.download = filename
   a.click()
-  window.URL.revokeObjectURL(url)
+  setTimeout(() => window.URL.revokeObjectURL(url), 10)
 }
 
 /**
