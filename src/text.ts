@@ -20,7 +20,7 @@ export const sha256 = async (text: string): Promise<string> => {
  * @param fmt 返回的可读日期。默认"YYYY-mm-dd HH:MM:SS"，对应日期 "2022-03-30 22:50:39"
  * @see https://www.jianshu.com/p/49fb78bca621
  */
-export const date = function (date = new Date(), fmt = "YYYY-mm-dd HH:MM:SS"): string {
+export const date = (date = new Date(), fmt = "YYYY-mm-dd HH:MM:SS"): string => {
   const opt = {
     "Y+": date.getFullYear().toString(),        // 年
     "m+": (date.getMonth() + 1).toString(),     // 月
@@ -50,7 +50,7 @@ export const date = function (date = new Date(), fmt = "YYYY-mm-dd HH:MM:SS"): s
  * @param seconds 秒
  * @param needTrim 当小时位为 0 时，是否删除开头的"00:"。默认不删除
  */
-export const parseSec = function (seconds: number, needTrim = false): string {
+export const parseSec = (seconds: number, needTrim = false): string => {
   let str = new Date(seconds * 1000).toISOString().substr(11, 8)
   if (str.indexOf("00:") === 0 && needTrim) {
     return str.replace("00:", "")
@@ -63,7 +63,7 @@ export const parseSec = function (seconds: number, needTrim = false): string {
  * @param arrayBuffer 如果希望传递的参数是 Blob，可先通过`await blob.arrayBuffer()`转换为 ArrayBuffer 后传递
  * @see https://stackoverflow.com/a/38490522
  */
-export const gbk2UTF8 = function (arrayBuffer: ArrayBuffer): string {
+export const gbk2UTF8 = (arrayBuffer: ArrayBuffer): string => {
   let decoder = new TextDecoder('gbk')
   return decoder.decode(arrayBuffer)
 }
@@ -72,9 +72,19 @@ export const gbk2UTF8 = function (arrayBuffer: ArrayBuffer): string {
  * 将文件大小转可读字符串，如 "123 KB"
  * @param size 文件的字节数
  */
-export const fileSize2Str = function (size: number): string {
+export const fileSize2Str = (size: number): string => {
   if (size <= 0) return "NAN"
   const i = Math.floor(Math.log(size) / Math.log(1024))
   let num = parseInt((size / Math.pow(1024, i)).toFixed(2))
   return num + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][i]
+}
+
+/**
+ * 返回两数之间（包含）的随机数
+ * @param  min 最小值
+ * @param  max 最大值
+ * @see https://www.cnblogs.com/starof/p/4988516.html
+ */
+export const random = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

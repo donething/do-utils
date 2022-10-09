@@ -5,8 +5,7 @@ import {sleep} from "./utils"
  * @param doc 文档
  * @see google
  */
-export const findLargestPlayingVideo = function (doc: Document): HTMLVideoElement | null {
-  /** @namespace video.disablePictureInPicture **/
+export const findLargestPlayingVideo = (doc: Document): HTMLVideoElement | null => {
   const videos = Array.from(doc.querySelectorAll('video'))
     .filter(video => video.readyState !== 0)
     // .filter(video => video.disablePictureInPicture === false)
@@ -32,8 +31,7 @@ export const findLargestPlayingVideo = function (doc: Document): HTMLVideoElemen
  * @see https://stackoverflow.com/a/52109693
  * @see https://developer.chrome.com/extensions/notifications#NotificationOptions
  */
-export const notify = function (options: chrome.notifications.NotificationOptions,
-                                actions?: Array<Function | undefined>) {
+export const notify = (options: chrome.notifications.NotificationOptions, actions?: Array<Function | undefined>) => {
   let myNotificationID = ""
 
   // 除了 title、message 外，其它必要的属性
@@ -61,7 +59,7 @@ export const notify = function (options: chrome.notifications.NotificationOption
  * @param selector CSS元素选择器
  * @param interval 等待判断的间隔时间（单位毫秒，不指定时为300毫秒）
  */
-export const waitForElem = async function (selector: string, interval = 300) {
+export const waitForElem = async (selector: string, interval = 300) => {
   while (!document.querySelector(selector)) {
     await sleep(interval)
   }
@@ -73,7 +71,7 @@ export const waitForElem = async function (selector: string, interval = 300) {
  * @param filename 指定文件名
  * @see https://juejin.cn/post/6844903699496566792
  */
-export const download = function (data: any, filename: string) {
+export const download = (data: any, filename: string) => {
   switch (typeof data) {
     // 如果是对象，先转为JSON字符串，再保存
     case "object":
@@ -100,11 +98,11 @@ export const download = function (data: any, filename: string) {
  * 滚动到目标元素
  * @param selector 元素选择器，如 "div.p"
  */
-export const scrollIntoView = function (selector: string) {
+export const scrollIntoView = (selector: string) => {
   let elem = document.querySelector(selector)
   if (!elem) {
-    console.log("元素不存在，无法滚动到此")
-    return
+    console.error("元素不存在，无法滚动到此")
+    throw "元素不存在，无法滚动到此"
   }
   elem.scrollIntoView({block: "center", behavior: "smooth"})
 }
@@ -114,7 +112,7 @@ export const scrollIntoView = function (selector: string) {
  * 返回 脚本所在的HTML元素
  * @param code JavaScript 代码
  */
-export const insertJS = function (code: string | Function): HTMLScriptElement {
+export const insertJS = (code: string | Function): HTMLScriptElement => {
   let script = document.createElement("script")
   // 使用匿名函数是为了避免干扰原执行环境，如报变量已存在的错误
   script.textContent = '(' + code + ')()';
@@ -125,11 +123,11 @@ export const insertJS = function (code: string | Function): HTMLScriptElement {
 }
 
 /**
- * 插入内联 JavaScript
+ * 插入外联 JavaScript
  * 返回 脚本所在的HTML元素
  * @param src 注入脚步的路径
  */
-export const insertJSSrc = function (src: string): HTMLScriptElement {
+export const insertJSSrc = (src: string): HTMLScriptElement => {
   let script = document.createElement("script")
   // 注入脚本，不能使用textContent属性，会报错 inline code
   script.src = src;
@@ -151,7 +149,7 @@ export const insertJSSrc = function (src: string): HTMLScriptElement {
  * @param str 需解析的字符串
  * @see https://stackoverflow.com/a/494348/8179418
  */
-export const elemOf = function (str: string): Element {
+export const elemOf = (str: string): Element => {
   let div = document.createElement('div')
   div.innerHTML = str
 
@@ -170,7 +168,7 @@ export const Msg = {info: "info", success: "success", warning: "warning", error:
  * @param type 消息都类型，可选 MSG 中的值。默认为"info"
  * @param duration 消息都持续时间（毫秒）。默认 3 秒
  */
-export const showMsg = async function (message: string, type = Msg.info, duration = 3000) {
+export const showMsg = async (message: string, type = Msg.info, duration = 3000) => {
   // 获取消息的的弹窗，以及消息项。消息弹窗内可以放置多条消息项
   let htmlURL = chrome.runtime.getURL("/htmls/message.html")
   let resp = await fetch(htmlURL)
@@ -211,11 +209,54 @@ export const showMsg = async function (message: string, type = Msg.info, duratio
  * @param doc 需要传递DOM对象
  * @param text 需要复制的文本
  */
-export const copyText = function (doc: Document, text: string) {
+export const copyText = (doc: Document, text: string) => {
   let textarea = doc.createElement("textarea")
   doc.body.appendChild(textarea)
   textarea.value = text
   textarea.select()
   doc.execCommand("copy")
   textarea.remove()
+}
+
+/**
+ * 返回 多重比较器
+ * @param  sortRule 比较器的数组，按顺序比较，如 [onlineSort, platSort, nameSort]
+ */
+export const multiComparator = (sortRule: Array<Function>): Function => {
+  return function <T>(a: T, b: T): number {
+    let tmp, i = 0
+    do {
+      tmp = sortRule[i](a, b)
+      i++
+    } while (tmp === 0 && i < sortRule.length)
+    return tmp
+  }
+}
+
+/**
+ * 向有序数组中添加元素（新数组依然有序）
+ *
+ * 也可以直接用于数组排序：myarray.sort(multiComparator(sortRule))
+ * @param array 目标数组
+ * @param element 待添加的元素
+ * @param sortRule 比较器的数组，按传参顺序比较：[onlineSort, platSort, nameSort]
+ */
+export const insertOrdered = <T>(array: Array<T>, element: T, sortRule: Array<Function>): Array<T> => {
+  let i: number
+  // react 更新数组，需要生成新数组，界面上才能改变
+  let newArray = [...array]
+
+  // 排序规则为空，直接将元素添加到数组末尾
+  if (!sortRule || sortRule.length === 0) {
+    newArray.push(element)
+    return newArray
+  }
+
+  // 当排序函数返回值等于 1，表示 element 值比较“大” 要继续往后查找位置
+  // 当返回值等于 1- 或 0 时，表示 element 值小于等于 array[1]，应该排在 array[i] 的同一位置或前面
+  // 此时退出 for，达到按序插入元素的目的
+  for (i = 0; i < newArray.length && multiComparator(sortRule)(element, newArray[i]) >= 1; i++) {
+  }
+  newArray.splice(i, 0, element)
+  return newArray
 }

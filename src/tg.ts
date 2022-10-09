@@ -1,27 +1,49 @@
 // Telegram 消息发送
+
+// 需发送的媒体对象
+export type Media = {
+  // 媒体文件，可以为下列 3 种值：
+  // URL TG 将下载到其服务器<br>
+  // attach://<file_attach_name> 将在表单中上传二进制文件，此处 <file_attach_name> 需对应文件表单的键
+  // file_id 在相同的聊天频道中已存在媒体文件的 ID
+  media: string
+
+  // 媒体的数据类型，必为"audio"、"document"、"photo"或"video"
+  type: string
+
+  // 媒体的标题，解析后字符数需在 0-1024 之间
+  caption: string
+
+  // 标题的解析模式
+  parse_mode: string
+}
+
+// sendMediaGroup 的媒体类型
+export type MediaType = {
+  AUDIO: "audio",
+  DOCUMENT: "document",
+  PHOTO: "photo",
+  VIDEO: "video"
+}
+
+// MediaOrigin
+// 需要发送的原始媒体信息
+export type MediaOrigin = {
+  // 媒体的地址
+  media: string
+  // 媒体的类型
+  type: MediaType
+  // 媒体的标题
+  caption: string
+  // 标题的解析模式
+  parse_mode: string
+  // 标题中特殊实体的列表，可以指定代替 parse_mode
+  caption_entities: string
+}
+
 export class TGSender {
   // 机器人的 token
   readonly token: string = ""
-
-  // sendMediaGroup 的媒体类型
-  static MediaType = {
-    AUDIO: "audio",
-    DOCUMENT: "document",
-    PHOTO: "photo",
-    VIDEO: "video"
-  }
-
-  /**
-   * 媒体
-   * @typedef {Object} Media
-   * @property {string} media 媒体文件，可以为下列 3 种值：<br>
-   * URL TG 将下载到其服务器<br>
-   * attach://<file_attach_name> 将在表单中上传二进制文件，此处 <file_attach_name> 需对应文件表单的键<br>
-   * file_id 在相同的聊天频道中已存在媒体文件的 ID
-   * @property  type 媒体的数据类型，必为"audio"、"document"、"photo"或"video"
-   * @property caption 媒体的标题，解析后字符数需在 0-1024 之间
-   * @property parse_mode 标题的解析模式
-   */
 
   // 机器人的 token，最前面不要加"bot"
   constructor(token: string) {
@@ -54,22 +76,12 @@ export class TGSender {
   }
 
   /**
-   * 需要发送的原始媒体信息
-   * @typedef {Object} MediaOrigin
-   * @property {string} media 媒体的地址
-   * @property {string} type 媒体的类型，必为 MediaType 中的某个值
-   * @property {string} [caption] 媒体的标题
-   * @property {string} [parse_mode] 标题的解析模式
-   * @property {string} [caption_entities] 标题中特殊实体的列表，可以指定代替 parse_mode
-   */
-
-  /**
    * sendMediaGroup 将一组照片、视频、文档或音频作为合集发送频道
    * 可传递第一个文档的 caption、parse_mode 来设置合集的标题
    * @param  chat_id 聊天室频道的 ID
-   * @param {Array<MediaOrigin>} mediaOrignList 媒体合集
+   * @param mediaOrignList 媒体合集
    */
-  async sendMediaGroup(chat_id: string, mediaOrignList: any) {
+  async sendMediaGroup(chat_id: string, mediaOrignList: Array<MediaOrigin>) {
     // 将发送的表单
     let form = new FormData()
     // 设置表单 chat_id
