@@ -137,3 +137,7 @@ if (error != null) {
   console.log("发送消息出错：", error);
 }
 ```
+
+## 参考
+
+* [使用Typescript编写和发布npm包 - 简书](https://www.jianshu.com/p/8fa2c50720e4)
