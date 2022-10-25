@@ -78,13 +78,3 @@ export const fileSize2Str = (size: number): string => {
   let num = parseInt((size / Math.pow(1024, i)).toFixed(2))
   return num + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][i]
 }
-
-/**
- * 返回两数之间（包含）的随机数
- * @param  min 最小值
- * @param  max 最大值
- * @see https://www.cnblogs.com/starof/p/4988516.html
- */
-export const random = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}

@@ -1,7 +1,9 @@
 import {WXPush} from "./wxpush"
-import {date} from "../text"
+import {date} from "../utils/text"
 
-// 微信测试号推送
+/**
+ * 微信测试号的消息推送类
+ */
 export class WXSandbox extends WXPush {
   /**
    * 构造函数，实例化类时传递

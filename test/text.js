@@ -1,6 +1,5 @@
-const {sha256} = require("../dist/text");
-const {date} = require("../dist/text");
-const expect = require('chai').expect;
+import {sha256, date} from "../dist/main.es.js";
+import {expect} from "chai";
 
 describe('sha256 function test', () => {
   it('should return "8bc7effec4d3400515b7b366ef5c5edac186389ea4d03d45e7bbe2233e47f707"', async () => {

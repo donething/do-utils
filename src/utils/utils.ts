@@ -14,6 +14,7 @@ export const sleep = async (time: number) => {
 
 /**
  * 执行网络请求
+ *
  * 因为使用了 fetch，仅支持在类 chromium 中调用
  * @param url 目标链接
  * @param data 需要 POST 的数据
@@ -53,30 +54,11 @@ export const request = async (url: string, data?: FormData | object | string, in
 }
 
 /**
- * 复制文本到剪贴板（仅在后台脚本中可用）
- *
- * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
- * @param text 需要复制的文本
+ * 返回两数之间（包含）的随机数
+ * @param  min 最小值
+ * @param  max 最大值
+ * @see https://www.cnblogs.com/starof/p/4988516.html
  */
-export const copyTextInBG = (text: string) => {
-  chrome.tabs.query({active: true}, tabs => {
-    if (tabs.length === 0 || !tabs[0].id) {
-      console.error("后台复制文本出错，tabs 信息不完整：", JSON.stringify(tabs))
-      throw "后台复制文本出错，tabs 信息不完整"
-    }
-
-    // 向当前标签中注入文本框，以复制指定文本
-    chrome.scripting.executeScript({
-      target: {tabId: tabs[0].id},
-      func: (text: string) => {
-        let textarea = document.createElement("textarea")
-        document.body.appendChild(textarea)
-        textarea.value = text
-        textarea.select()
-        document.execCommand("copy")
-        textarea.remove()
-      },
-      args: [text]
-    })
-  })
+export const random = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }

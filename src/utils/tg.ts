@@ -1,6 +1,8 @@
 // Telegram 消息发送
 
-// 需发送的媒体对象
+/**
+ * 需发送的媒体对象
+ */
 export type Media = {
   // 媒体文件，可以为下列 3 种值：
   // URL TG 将下载到其服务器<br>
@@ -18,7 +20,9 @@ export type Media = {
   parse_mode: string
 }
 
-// sendMediaGroup 的媒体类型
+/**
+ * 媒体类型
+ */
 export type MediaType = {
   AUDIO: "audio",
   DOCUMENT: "document",
@@ -26,8 +30,9 @@ export type MediaType = {
   VIDEO: "video"
 }
 
-// MediaOrigin
-// 需要发送的原始媒体信息
+/**
+ * `TGSender.sendMediaGroup` 发送的原始媒体信息
+ */
 export type MediaOrigin = {
   // 媒体的地址
   media: string
@@ -41,6 +46,9 @@ export type MediaOrigin = {
   caption_entities: string
 }
 
+/**
+ * TG 消息推送类
+ */
 export class TGSender {
   // 机器人的 token
   readonly token: string = ""

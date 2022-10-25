@@ -1,27 +1,6 @@
 import {sleep} from "./utils"
 
 /**
- * 获取当前网页中正在播放的占用最大面积的视频元素
- * @param doc 文档
- * @see google
- */
-export const findLargestPlayingVideo = (doc: Document): HTMLVideoElement | null => {
-  const videos = Array.from(doc.querySelectorAll('video'))
-    .filter(video => video.readyState !== 0)
-    // .filter(video => video.disablePictureInPicture === false)
-    .sort((v1, v2) => {
-      const v1Rect = v1.getClientRects()[0] || {width: 0, height: 0}
-      const v2Rect = v2.getClientRects()[0] || {width: 0, height: 0}
-      return ((v2Rect.width * v2Rect.height) - (v1Rect.width * v1Rect.height))
-    })
-
-  if (videos.length === 0) {
-    return null
-  }
-  return videos[0]
-}
-
-/**
  * 发送 chromium 桌面通知
  *
  * 仅在 background 脚本中可用，在 content script 中可使用标准 Web 通知
@@ -160,7 +139,9 @@ export const elemOf = (str: string): Element => {
   return div
 }
 
-// 消息的类型
+/**
+ * `showMsg` 发送消息的类型
+ */
 export const Msg = {info: "info", success: "success", warning: "warning", error: "error"}
 /**
  * 在网页内显示消息提示（仅在内容脚本中可用）
@@ -203,7 +184,18 @@ export const showMsg = async (message: string, type = Msg.info, duration = 3000)
 }
 
 /**
- * 复制文本到剪贴板（仅在内容脚本中可用）
+ * 复制内容
+ * @param data 文本或数据
+ */
+export const copy = async (data: string | ClipboardItems) => {
+  return typeof data === "string" ?
+    await navigator.clipboard.writeText(data) :
+    await navigator.clipboard.write(data)
+
+}
+
+/**
+ * 复制文本到剪贴板（仅在扩展的内容脚本中可用）
  *
  * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
  * @param doc 需要传递DOM对象
@@ -216,6 +208,35 @@ export const copyText = (doc: Document, text: string) => {
   textarea.select()
   doc.execCommand("copy")
   textarea.remove()
+}
+
+/**
+ * 复制文本到剪贴板（仅在扩展的后台脚本中可用）
+ *
+ * 该方法创建的 textarea 不能设置为 "display: none"，会导致复制失败
+ * @param text 需要复制的文本
+ */
+export const copyTextInBG = (text: string) => {
+  chrome.tabs.query({active: true}, tabs => {
+    if (tabs.length === 0 || !tabs[0].id) {
+      console.error("后台复制文本出错，tabs 信息不完整：", JSON.stringify(tabs))
+      throw "后台复制文本出错，tabs 信息不完整"
+    }
+
+    // 向当前标签中注入文本框，以复制指定文本
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      func: (text: string) => {
+        let textarea = document.createElement("textarea")
+        document.body.appendChild(textarea)
+        textarea.value = text
+        textarea.select()
+        document.execCommand("copy")
+        textarea.remove()
+      },
+      args: [text]
+    })
+  })
 }
 
 /**
@@ -259,4 +280,25 @@ export const insertOrdered = <T>(array: Array<T>, element: T, sortRule: Array<Fu
   }
   newArray.splice(i, 0, element)
   return newArray
+}
+
+/**
+ * 获取当前网页中正在播放的占用最大面积的视频元素
+ * @param doc 文档
+ * @see google
+ */
+export const findLargestPlayingVideo = (doc: Document): HTMLVideoElement | null => {
+  const videos = Array.from(doc.querySelectorAll('video'))
+    .filter(video => video.readyState !== 0)
+    // .filter(video => video.disablePictureInPicture === false)
+    .sort((v1, v2) => {
+      const v1Rect = v1.getClientRects()[0] || {width: 0, height: 0}
+      const v2Rect = v2.getClientRects()[0] || {width: 0, height: 0}
+      return ((v2Rect.width * v2Rect.height) - (v1Rect.width * v1Rect.height))
+    })
+
+  if (videos.length === 0) {
+    return null
+  }
+  return videos[0]
 }

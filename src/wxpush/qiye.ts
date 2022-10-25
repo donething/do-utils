@@ -1,7 +1,9 @@
 import {WXPush} from "./wxpush"
-import {date} from "../text"
+import {date} from "../utils/text"
 
-// 微信企业号推送
+/**
+ * 微信企业号的应用消息推送类
+ */
 export class WXQiYe extends WXPush {
   // 快速生成超链接
   static Comm = {

@@ -1,21 +1,31 @@
 {
   "name": "do-utils",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "description": "工具集",
   "type": "module",
-  "main": "dist/utils.js",
+  "main": "dist/main.js",
+  "module": "dist/main.es.js",
+  "types": "dist/main.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "test": "mocha --reporter spec"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^23.0.2",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^9.0.2",
     "@types/chrome": "^0.0.164",
     "chai": "^4.3.4",
     "mocha": "^9.1.3",
-    "typescript": "^4.4.4"
+    "rollup": "^3.2.3",
+    "rollup-plugin-dts": "^5.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-terser": "^7.0.2",
+    "tslib": "^2.4.0",
+    "typescript": "4.6.3"
   },
   "files": [
     "dist"

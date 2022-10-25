@@ -1,7 +1,7 @@
-import {request} from "../utils"
+import {request} from "../utils/utils"
 
 /**
- * 通过企业微信、微信测试号 推送消息
+ * 通过企业微信、微信测试号 的消息推送类
  */
 export class WXPush {
   // 获取 token 的 URL，在子类的构造函数构造
