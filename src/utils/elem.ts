@@ -80,9 +80,10 @@ export const download = (data: any, filename: string) => {
 export const scrollIntoView = (selector: string) => {
   let elem = document.querySelector(selector)
   if (!elem) {
-    console.error("元素不存在，无法滚动到此")
-    throw "元素不存在，无法滚动到此"
+    console.error(`元素"${selector}"不存在，无法滚动到此`)
+    return
   }
+
   elem.scrollIntoView({block: "center", behavior: "smooth"})
 }
 
