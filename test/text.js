@@ -1,4 +1,4 @@
-import {sha256, date} from "../dist/main.es.js";
+import {sha256, date, truncateStr} from "../dist/main.es.js";
 import {expect} from "chai";
 
 describe('sha256 function test', () => {
@@ -12,5 +12,12 @@ describe('date function test', () => {
   it('should return "2022-03-30 22:50:39"', async () => {
     const result = date(new Date("2022-03-30 22:50:39"));
     expect(result).to.equal("2022-03-30 22:50:39");
+  });
+});
+
+describe('truncateStr function test', () => {
+  it('should return "测试...串"', async () => {
+    const result = truncateStr("测试长字符串");
+    expect(result).to.equal("测试...串");
   });
 });

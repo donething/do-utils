@@ -15,7 +15,7 @@ import {
   copyTextInBG,
   copy
 } from "./utils/elem"
-import {date, fileSize2Str, gbk2UTF8, parseSec, sha256} from "./utils/text"
+import {date, fileSize2Str, gbk2UTF8, parseSec, sha256, truncateStr} from "./utils/text"
 import {Media, MediaOrigin, MediaType, TGSender} from "./utils/tg"
 import {random, request, sleep} from "./utils/utils"
 import {WXQiYe} from "./wxpush/qiye"
@@ -42,7 +42,7 @@ export {
 }
 
 // ./text.ts
-export {sha256, date, parseSec, gbk2UTF8, fileSize2Str}
+export {sha256, date, parseSec, gbk2UTF8, fileSize2Str, truncateStr}
 
 // ./utils
 export {sleep, request, random}

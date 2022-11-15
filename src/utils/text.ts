@@ -78,3 +78,21 @@ export const fileSize2Str = (size: number): string => {
   let num = parseInt((size / Math.pow(1024, i)).toFixed(2))
   return num + ' ' + ['B', 'KB', 'MB', 'GB', 'TB'][i]
 }
+
+/**
+ * 截断长字符串，中间默认省略号
+ * @param fullStr 长字符串
+ * @param separator 省略号，默认"..."
+ * @see https://github.com/definite2/use-dynamic-truncate-middle/blob/main/src/utils/truncateFromMiddle.ts
+ */
+export const truncateStr = (fullStr: string, separator = "...") => {
+  if (fullStr.length <= separator.length) return fullStr
+
+  let strLen = fullStr.length
+  let sepLen = separator.length
+  let charsToShow = strLen - sepLen
+  let frontChars = Math.ceil(charsToShow / 2)
+  let backChars = Math.floor(charsToShow / 2)
+
+  return fullStr.substring(0, frontChars) + separator + fullStr.substring(fullStr.length - backChars)
+}
