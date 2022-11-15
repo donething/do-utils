@@ -81,14 +81,16 @@ export const fileSize2Str = (size: number): string => {
 
 /**
  * 截断长字符串，中间默认省略号
+ *
+ * 原理为：截断后的总长减去省略号的长度，再除以2即为原字符串可以展示的长度
  * @param fullStr 长字符串
+ * @param strLen 截断后的总长度。若小于 fullStr 的长度，将只显示省略号
  * @param separator 省略号，默认"..."
  * @see https://github.com/definite2/use-dynamic-truncate-middle/blob/main/src/utils/truncateFromMiddle.ts
  */
-export const truncateStr = (fullStr: string, separator = "...") => {
-  if (fullStr.length <= separator.length) return fullStr
+export const truncateStr = (fullStr: string, strLen: number, separator = "...") => {
+  if (fullStr.length <= strLen) return fullStr
 
-  let strLen = fullStr.length
   let sepLen = separator.length
   let charsToShow = strLen - sepLen
   let frontChars = Math.ceil(charsToShow / 2)

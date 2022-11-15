@@ -17,7 +17,8 @@ describe('date function test', () => {
 
 describe('truncateStr function test', () => {
   it('should return "测试...串"', async () => {
-    const result = truncateStr("测试长字符串");
+    const result = truncateStr("测试长字符串", 61);
+    console.log("结果", result);
     expect(result).to.equal("测试...串");
   });
 });
