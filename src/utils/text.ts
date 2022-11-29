@@ -88,7 +88,7 @@ export const fileSize2Str = (size: number): string => {
  * @param separator 省略号，默认"..."
  * @see https://github.com/definite2/use-dynamic-truncate-middle/blob/main/src/utils/truncateFromMiddle.ts
  */
-export const truncateStr = (fullStr: string, strLen: number, separator = "...") => {
+export const trunStr = (fullStr: string, strLen: number, separator = "...") => {
   if (fullStr.length <= strLen) return fullStr
 
   let sepLen = separator.length
@@ -97,4 +97,21 @@ export const truncateStr = (fullStr: string, strLen: number, separator = "...") 
   let backChars = Math.floor(charsToShow / 2)
 
   return fullStr.substring(0, frontChars) + separator + fullStr.substring(fullStr.length - backChars)
+}
+
+/**
+ * 截断长字符串，从最前面开始
+ *
+ * 如 trunStrBegin("abcdef", 3)，返回 "abc..."
+ * @param fullStr 长字符串
+ * @param len 需要保留的字符长度（不包括 separator）
+ * @param separator 省略号，默认"..."
+ */
+export const trunStrBegin = (fullStr: string, len: number, separator = "...") => {
+  let s = fullStr.substring(0, len)
+  if (fullStr.length > len) {
+    return s + separator
+  }
+
+  return s
 }
