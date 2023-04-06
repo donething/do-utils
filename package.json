@@ -1,6 +1,6 @@
 {
   "name": "do-utils",
-  "version": "1.0.56",
+  "version": "1.0.57",
   "description": "工具集",
   "type": "module",
   "main": "dist/main.js",
