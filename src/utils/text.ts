@@ -115,3 +115,12 @@ export const trunStrBegin = (fullStr: string, len: number, separator = "...") =>
 
   return s
 }
+
+/**
+ * 计算字符串型式的数学计算
+ * @param expression 字符串表达式，如 "1+3-2*3"。当格式错误时，会返回错误
+ * @see https://stackoverflow.com/a/73250658
+ */
+export const calStr = (expression: string) => {
+  return new Function(`return ${expression}`)()
+}
