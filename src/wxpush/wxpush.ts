@@ -1,4 +1,4 @@
-import {request} from "../utils/utils"
+import {request} from "../utils/http"
 
 /**
  * 通过企业微信、微信测试号 的消息推送类

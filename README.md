@@ -148,6 +148,10 @@ if (error != null) {
 }
 ```
 
+# 注意
+
+不能在 `chrome.scripting.executeScript()` 的参数 func 内调用本工具，会报错：VM1589:2 Uncaught ReferenceError: xx is not defined
+
 # 参考
 
 * [使用Typescript编写和发布npm包 - 简书](https://www.jianshu.com/p/8fa2c50720e4)

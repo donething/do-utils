@@ -1,10 +1,11 @@
 {
   "name": "do-utils",
-  "version": "1.0.57",
+  "version": "1.0.79",
+  "type": "commonjs",
   "description": "工具集",
-  "type": "module",
   "main": "dist/main.js",
   "module": "dist/main.es.js",
+  "types": "dist/main.d.ts",
   "scripts": {
     "build": "rollup -c",
     "test": "mocha --reporter spec"
@@ -22,12 +23,10 @@
     "rollup": "^3.2.3",
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-terser": "^7.0.2",
-    "tslib": "^2.4.0",
-    "typescript": "4.6.3"
+    "tslib": "^2.4.0"
   },
   "files": [
-    "dist/main.*"
-  ],
-  "types": "dist/main.d.ts"
+    "dist/",
+    "!dist/*.map"
+  ]
 }

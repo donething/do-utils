@@ -1,17 +1,3 @@
-// 常用工具函数
-// 不能在 chrome.scripting.executeScript() 的参数 func 内中调用本工具，会报错：
-// VM1589:2 Uncaught ReferenceError: utils is not defined
-
-/**
- * 等待指定的毫秒时间
- *
- * 用法为: await sleep(1000) 或 sleep(1000).then(...)
- * @param time 毫秒数
- */
-export const sleep = async (time: number) => {
-  await new Promise(resolve => setTimeout(resolve, time))
-}
-
 /**
  * 执行网络请求
  *
@@ -51,14 +37,4 @@ export const request = async (url: string, data?: FormData | object | string, in
   }
 
   return await fetch(url, ops)
-}
-
-/**
- * 返回两数之间（包含）的随机数
- * @param  min 最小值
- * @param  max 最大值
- * @see https://www.cnblogs.com/starof/p/4988516.html
- */
-export const random = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
 }

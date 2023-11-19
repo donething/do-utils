@@ -1,4 +1,4 @@
-import {sleep} from "./utils"
+import {sleep} from "./thread"
 
 /**
  * 发送 chromium 桌面通知

@@ -15,9 +15,11 @@ import {
   copyTextInBG,
   copy
 } from "./utils/elem"
+import {request} from "./utils/http"
+import {random} from "./utils/math"
 import {date, fileSize2Str, gbk2UTF8, parseSec, sha256, trunStr, trunStrBegin} from "./utils/text"
 import {Media, MediaOrigin, MediaType, TGSender} from "./utils/tg"
-import {random, request, sleep} from "./utils/utils"
+import {sleep} from "./utils/thread"
 import {WXQiYe} from "./wxpush/qiye"
 import {WXSandbox} from "./wxpush/sandbox"
 import {WXPush} from "./wxpush/wxpush"
@@ -44,11 +46,17 @@ export {
 // ./text.ts
 export {sha256, date, parseSec, gbk2UTF8, fileSize2Str, trunStr, trunStrBegin}
 
-// ./utils
-export {sleep, request, random}
+// ./thread.ts
+export {sleep}
 
 // ./tg.ts
 export {Media, MediaType, MediaOrigin, TGSender}
 
 // ./wxpush
 export {WXPush, WXQiYe, WXSandbox}
+
+// ./math.ts
+export {random}
+
+// ./http.ts
+export {request}
