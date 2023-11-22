@@ -15,7 +15,7 @@ import {
   copyTextInBG,
   copy
 } from "./utils/elem"
-import {request} from "./utils/http"
+import {request, parseSetCookie} from "./utils/http"
 import {random} from "./utils/math"
 import {date, fileSize2Str, gbk2UTF8, parseSec, sha256, trunStr, trunStrBegin} from "./utils/text"
 import {Media, MediaOrigin, MediaType, TGSender} from "./utils/tg"
@@ -59,4 +59,4 @@ export {WXPush, WXQiYe, WXSandbox}
 export {random}
 
 // ./http.ts
-export {request}
+export {request, parseSetCookie}

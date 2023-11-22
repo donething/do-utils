@@ -38,3 +38,33 @@ export const request = async (url: string, data?: FormData | object | string, in
 
   return await fetch(url, ops)
 }
+
+/**
+ * 解析响应头的 set-cookie 为键值对的返回值
+ */
+type ParsedCookie = {
+  [key: string]: string | boolean;
+}
+/**
+ * 解析响应头的 set-cookie 为键值对
+ * @param cookieHeaders 响求头中的 set-cookie 数组
+ */
+export const parseSetCookie = (cookieHeaders: string[]): ParsedCookie => {
+  const cookies: ParsedCookie = {}
+
+  cookieHeaders.forEach(header => {
+    header.split(',').forEach(cookieString => {
+      const cookieParts = cookieString.trim().split(';')
+      const [cookieKeyValue, ...attributes] = cookieParts[0].split('=')
+      const cookieKey = decodeURIComponent(cookieKeyValue)
+      cookies[cookieKey] = decodeURIComponent(attributes.join('='))
+
+      attributes.forEach(attribute => {
+        const [attrKey, attrValue = true] = attribute.trim().split('=')
+        cookies[attrKey.toLowerCase()] = attrValue || true
+      })
+    })
+  })
+
+  return cookies
+}

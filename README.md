@@ -103,6 +103,10 @@ tg.sendMessage("chat_id", "yyy")
 
 执行网络请求
 
+## parseSetCookie
+
+解析响应头中的 `set-cookie` 为键值对
+
 ## copyTextInBG
 
 复制文本到剪贴板。仅在后台脚本中可用
@@ -150,7 +154,8 @@ if (error != null) {
 
 # 注意
 
-不能在 `chrome.scripting.executeScript()` 的参数 func 内调用本工具，会报错：VM1589:2 Uncaught ReferenceError: xx is not defined
+不能在 `chrome.scripting.executeScript()` 的参数 func 内调用本工具，会报错：VM1589:2 Uncaught ReferenceError: xx is not
+defined
 
 # 参考
 
