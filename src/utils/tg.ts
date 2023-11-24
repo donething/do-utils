@@ -3,7 +3,7 @@
 /**
  * 需发送的媒体对象
  */
-export type Media = {
+export interface Media {
   // 媒体文件，可以为下列 3 种值：
   // URL TG 将下载到其服务器<br>
   // attach://<file_attach_name> 将在表单中上传二进制文件，此处 <file_attach_name> 需对应文件表单的键
@@ -33,7 +33,7 @@ export type MediaType = {
 /**
  * `TGSender.sendMediaGroup` 发送的原始媒体信息
  */
-export type MediaOrigin = {
+export interface MediaOrigin {
   // 媒体的地址
   media: string
   // 媒体的类型
@@ -44,6 +44,34 @@ export type MediaOrigin = {
   parse_mode: string
   // 标题中特殊实体的列表，可以指定代替 parse_mode
   caption_entities: string
+}
+
+/**
+ * 发送消息后的响应
+ * 当 ok 时，才有 result
+ */
+interface Response {
+  ok: boolean
+  description?: string
+  error_code?: number
+
+  result?: {
+    message_id: number
+    from: {
+      id: number
+      is_bot: boolean
+      first_name: string
+      username: string
+    }
+    chat: {
+      id: number
+      first_name: string
+      username: string
+      type: string
+    }
+    date: number
+    text: string
+  };
 }
 
 /**
@@ -63,9 +91,9 @@ export class TGSender {
    *
    * @param  chat_id 聊天室频道的 ID
    * @param text 消息文本
-   * @param parse_mode 解析模式，默认 Markdown
+   * @param parse_mode 解析模式。默认"MarkdownV2"
    */
-  async sendMessage(chat_id: string, text: string, parse_mode = "markdown"): Promise<boolean> {
+  async sendMessage(chat_id: string, text: string, parse_mode = "MarkdownV2"): Promise<Response> {
     // 设置将 POST 到 TG 的数据
     let data = {chat_id: String(chat_id), text: text, parse_mode: parse_mode}
 
@@ -78,9 +106,7 @@ export class TGSender {
       body: JSON.stringify(data)
     }
     let resp = await fetch(`https://api.telegram.org/${this.token}/sendMessage`, ops)
-    let result = await resp.json()
-
-    return result.ok
+    return await resp.json()
   }
 
   /**
@@ -89,7 +115,7 @@ export class TGSender {
    * @param  chat_id 聊天室频道的 ID
    * @param mediaOrignList 媒体合集
    */
-  async sendMediaGroup(chat_id: string, mediaOrignList: Array<MediaOrigin>) {
+  async sendMediaGroup(chat_id: string, mediaOrignList: Array<MediaOrigin>): Promise<Response> {
     // 将发送的表单
     let form = new FormData()
     // 设置表单 chat_id
@@ -119,8 +145,33 @@ export class TGSender {
       body: form
     }
     let resp = await fetch(`https://api.telegram.org/${this.token}/sendMediaGroup`, ops)
-    let result = await resp.json()
 
-    return result.ok
+    return await resp.json()
+  }
+
+  /**
+   * EscapeMk 转义标题中不想渲染为 Markdown V2 的字符。用于转义已经被 Markdown 字符包围的文本
+   *
+   * 用法：EscapeMk("测#试Markdown文本*消息*结束：") + "*[搜索](https://www.google.com/)* #标签"
+   *
+   * 加号前一段将转义，不渲染为 Markdown；后一段将作为 Markdown 渲染。
+   *
+   * 即结果："测#试Markdown文本*消息*结束：搜索 #标签"。其中“搜索”的字体会加粗
+   *
+   * @see https://core.telegram.org/bots/api#markdownv2-style
+   */
+  static escapeMk(text: string): string {
+    const reg = /([_*\[\]()~`>#+\\\-=|{}.!])/g
+    return text.replace(reg, "\\$1")
+  }
+
+  /**
+   * LegalMk 合法化标题中的非法 Markdown V2 字符。用于转义需要作为 Markdown 渲染的文本
+   *
+   * 否则，直接发送会报错，提示需要转义，如'\#'
+   */
+  static legalMk(text: string): string {
+    const reg = /([#])/g
+    return text.replace(reg, "\\$1")
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "do-utils",
-  "version": "1.0.80",
+  "version": "1.0.85",
   "type": "commonjs",
   "description": "工具集",
   "main": "dist/main.js",
@@ -19,7 +19,7 @@
     "@rollup/plugin-typescript": "^9.0.2",
     "@types/chrome": "^0.0.164",
     "chai": "^4.3.4",
-    "mocha": "^9.1.3",
+    "mocha": "10.1.0",
     "rollup": "^3.2.3",
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
