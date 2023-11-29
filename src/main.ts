@@ -23,6 +23,7 @@ import {sleep} from "./utils/thread"
 import {WXQiYe} from "./wxpush/qiye"
 import {WXSandbox} from "./wxpush/sandbox"
 import {WXPush} from "./wxpush/wxpush"
+import WeiboUtility from "./utils/wb"
 
 // ./elem.ts
 export {
@@ -60,3 +61,6 @@ export {random}
 
 // ./http.ts
 export {request, parseSetCookie}
+
+// ./utils/wb.ts
+export {WeiboUtility}

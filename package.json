@@ -1,6 +1,6 @@
 {
   "name": "do-utils",
-  "version": "1.0.85",
+  "version": "1.0.86",
   "type": "commonjs",
   "description": "工具集",
   "main": "dist/main.js",
@@ -23,7 +23,8 @@
     "rollup": "^3.2.3",
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "typescript": "^5.3.2"
   },
   "files": [
     "dist/",
