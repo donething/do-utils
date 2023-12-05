@@ -24,6 +24,7 @@ import {WXQiYe} from "./wxpush/qiye"
 import {WXSandbox} from "./wxpush/sandbox"
 import {WXPush} from "./wxpush/wxpush"
 import WeiboUtility from "./utils/wb"
+import {typeError} from "./utils/error"
 
 // ./elem.ts
 export {
@@ -64,3 +65,6 @@ export {request, parseSetCookie}
 
 // ./utils/wb.ts
 export {WeiboUtility}
+
+// ./utils/error.ts
+export {typeError}
