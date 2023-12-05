@@ -1,6 +1,6 @@
 {
   "name": "do-utils",
-  "version": "1.0.87",
+  "version": "1.0.88",
   "type": "commonjs",
   "description": "工具集",
   "main": "dist/main.js",
